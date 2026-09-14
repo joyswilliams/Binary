@@ -1,0 +1,41 @@
+# BinaryQuestion: Write a Python program to create a binary file named student.dat that stores student records (Roll Number, Name, Marks). Write a function to insert multiple records into the file and another function to read and display all records.
+
+Answer:
+
+import pickle
+
+
+def write_records():
+    with open("student.dat", "wb") as file:
+        n = int(input("How many student records do you want to add? "))
+        for i in range(n):
+            print(f"\n--- Enter Details for Student {i+1} ---")
+            roll = int(input("Enter Roll Number: "))
+            name = input("Enter Name: ")
+            marks = float(input("Enter Marks: "))
+
+            record = {"Roll": roll, "Name": name, "Marks": marks}
+            pickle.dump(record, file)
+
+    print("\nRecords written successfully to student.dat!")
+
+
+def read_records():
+    print("\n--- Displaying All Student Records ---")
+    try:
+        with open("student.dat", "rb") as file:
+            while True:
+                try:
+                    record = pickle.load(file)
+                    print(
+                        f"Roll No: {record['Roll']} | Name: {record['Name']} | Marks: {record['Marks']}"
+                    )
+                except EOFError:
+                    break
+    except FileNotFoundError:
+        print("Error: The file 'student.dat' does not exist.")
+
+
+# Main Execution
+write_records()
+read_records()
